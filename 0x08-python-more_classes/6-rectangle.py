@@ -5,7 +5,7 @@
 
 class Rectangle:
     """ inside class rectangle
-    Attributes: int
+    Attributes: int(number_of_instances)
     """
 
     number_of_instances = 0
@@ -20,6 +20,8 @@ class Rectangle:
         """
         self.width = width
         self.height = height
+
+        Rectangle.number_of_instances += 1
 
     @property
     def width(self):
@@ -97,13 +99,13 @@ class Rectangle:
         if self.__width == 0 or self.__height == 0:
             return ""
 
-        return "\n".join(["#" * self.__width for i in range(self.__height)])
+        return "\n".join(["#" * self.__width for _ in range(self.__height)])
 
     def __repr__(self):
-        """Return the string representation of the Rectangle."""
+        """ Returns a string representation of the Rectangle """
         return "Rectangle({}, {})".format(self.__width, self.__height)
 
     def __del__(self):
-        """ del msg"""
-        print("Bye rectangle...")
+        """ del msg """
         Rectangle.number_of_instances -= 1
+        print("Bye rectangle...")
