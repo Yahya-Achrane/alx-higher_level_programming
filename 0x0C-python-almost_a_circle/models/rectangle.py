@@ -138,3 +138,12 @@ class Rectangle(Base):
             raise ValueError("y must be >= 0")
 
         self.__y = value
+
+    def area(self):
+        """
+        Claculate area of rectangle
+
+        Returns:
+            area of rectangle
+        """
+        return self.width * self.height
