@@ -4,6 +4,8 @@
 
 
 import unittest
+import io
+import sys
 from models.base import Base
 from models.rectangle import Rectangle
 
@@ -88,6 +90,44 @@ class TestRectangle(unittest.TestCase):
             r14 = Rectangle(3, 2)
             r14.area(1)
 
+    def test_display(self):
+        """Test display"""
+        r15 = Rectangle(2, 2)
+        previous_stdout = sys.stdout
+        result = io.StringIO()
+        sys.stdout = result
+        r15.display()
+        sys.stdout = previous_stdout
+        self.assertEqual(result.getvalue(), "##\n##\n")
+
+    def test_display_with_args(self):
+        """Test display with args"""
+        with self.assertRaises(TypeError):
+            r16 = Rectangle(2, 2)
+            r16.display(1)
+
+    def test_str_method_changed_attributes(self):
+        """Test str"""
+        r16 = Rectangle(7, 7, 0, 0, [4])
+        r16.width = 15
+        r16.height = 1
+        r16.x = 8
+        r16.y = 10
+        self.assertEqual("[Rectangle] ([4]) 8/10 - 15/1", str(r16))
+
+    def test_update(self):
+        """Test update"""
+        r17 = Rectangle(10, 10, 10, 10)
+        r17.update(89)
+        self.assertEqual(str(r17), "[Rectangle] (89) 10/10 - 10/10")
+        r17.update(89, 2)
+        self.assertEqual(str(r17), "[Rectangle] (89) 10/10 - 2/10")
+        r17.update(89, 2, 3)
+        self.assertEqual(str(r17), "[Rectangle] (89) 10/10 - 2/3")
+        r17.update(89, 2, 3, 4)
+        self.assertEqual(str(r17), "[Rectangle] (89) 4/10 - 2/3")
+        r17.update(89, 2, 3, 4, 5)
+        self.assertEqual(str(r17), "[Rectangle] (89) 4/5 - 2/3")
 
 if __name__ == "__main__":
     unittest.main()
