@@ -18,6 +18,7 @@ class TestRectangle(unittest.TestCase):
 
     def test_init_without_id(self):
         """Test __init__ without id"""
+        Base._Base__nb_objects = 0
         r2 = Rectangle(10, 2)
         self.assertEqual(r2.id, 1)
 
@@ -61,24 +62,31 @@ class TestRectangle(unittest.TestCase):
 
     def test_height(self):
         """Test height"""
-        r12 = Rectangle(10, 2)
-        self.assertEqual(r12.height, 2)
+        r10 = Rectangle(10, 2)
+        self.assertEqual(r10.height, 2)
 
     def test_height_setter(self):
         """Test height setter"""
-        r13 = Rectangle(10, 2)
-        r13.height = 20
-        self.assertEqual(r13.height, 20)
+        r11 = Rectangle(10, 2)
+        r11.height = 20
+        self.assertEqual(r11.height, 20)
 
     def test_height_setter_with_string(self):
         """Test height setter with string"""
         with self.assertRaises(TypeError):
-            r14 = Rectangle(10, 2)
-            r14.height = "hello"
+            r12 = Rectangle(10, 2)
+            r12.height = "hello"
+    
     def test_area(self):
         """Test area"""
-        r25 = Rectangle(3, 2)
-        self.assertEqual(r25.area(), 6)
+        r13 = Rectangle(3, 2)
+        self.assertEqual(r13.area(), 6)
+    
+    def test_area_with_args(self):
+        """Test area with args"""
+        with self.assertRaises(TypeError):
+            r14 = Rectangle(3, 2)
+            r14.area(1)
 
 
 if __name__ == "__main__":
