@@ -6,6 +6,7 @@ Module: square
 
 from models.rectangle import Rectangle
 
+
 class Square(Rectangle):
     """
     Class representing a square, inheriting from Rectangle.
@@ -64,5 +65,13 @@ class Square(Rectangle):
                 setattr(self, key, value)
 
     def to_dictionary(self):
-        """To dictionary method"""
-        return {"id": self.id, "size": self.size, "x": self.x, "y": self.y}
+        """
+        Return dictionary representation of square
+
+        Returns:
+            dictionary representation of square
+        """
+        return {
+                "id": self.id, "size": self.size, "x": self.x,
+                "y": self.y
+        }
