@@ -8,6 +8,7 @@ Base class for managing id attribute in future classes.
 import csv
 import json
 
+
 class Base:
     """
 
@@ -26,7 +27,7 @@ class Base:
         else:
             Base.__nb_objects += 1
             self.id = Base.__nb_objects
-    
+
     @staticmethod
     def to_json_string(list_dictionaries):
         """
@@ -87,3 +88,16 @@ class Base:
             dummy = cls(1)
         dummy.update(**dictionary)
         return dummy
+
+    @classmethod
+    def load_from_file(cls):
+        """
+        return a list of instances
+        """
+        filename = cls.__name__ + ".json"
+        try:
+            with open(filename, "r") as file:
+                list_dicts = cls.from_json_string(file.read())
+            return [cls.create(**dictionary) for dictionary in list_dicts]
+        except FileNotFoundError:
+            return []
