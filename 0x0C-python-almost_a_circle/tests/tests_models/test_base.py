@@ -57,6 +57,70 @@ class TestBase(unittest.TestCase):
         with self.assertRaises(TypeError):
             Base.to_json_string()
 
+    def test_save_to_file_with_none(self):
+        """Test save_to_file with None"""
+        Base.save_to_file(None)
+        with open("Base.json", "r") as f:
+            self.assertEqual(f.read(), "[]")
 
+    def test_save_to_file_with_empty_list(self):
+        """Test save_to_file with empty list"""
+        Base.save_to_file([])
+        with open("Base.json", "r") as f:
+            self.assertEqual(f.read(), "[]")
+
+    def test_save_to_file_with_one_dictionary(self):
+        """Test save_to_file with one dictionary"""
+        Base.save_to_file([{"id": 12}])
+        with open("Base.json", "r") as f:
+            self.assertEqual(f.read(), '[{"id": 12}]')
+
+    def test_save_to_file_with_two_dictionaries(self):
+        """Test save_to_file with two dictionaries"""
+        Base._Base__nb_objects = 0
+        r1 = Rectangle(10, 7, 2, 8)
+        r2 = Rectangle(2, 4)
+        a_dict = [r1.to_dictionary(), r2.to_dictionary()]
+        Rectangle.save_to_file([r1, r2])
+        with open("Rectangle.json", "r") as file:
+            list_dict = json.loads(file.read())
+        self.assertTrue(a_dict == list_dict)
+
+    def test_save_to_file_with_more_args(self):
+        """Test save_to_file with more args"""
+        with self.assertRaises(TypeError):
+            Base.save_to_file([{"id": 12}, {"id": 13}], 1)
+
+    def test_save_to_file_with_no_args(self):
+        """Test save_to_file with no args"""
+        with self.assertRaises(TypeError):
+            Base.save_to_file()
+
+    def test_from_json_string_with_none(self):
+        """Test from_json_string with None"""
+        self.assertEqual(Base.from_json_string(None), [])
+
+    def test_from_json_string_with_empty_string(self):
+        """Test from_json_string with empty string"""
+        self.assertEqual(Base.from_json_string(""), [])
+
+    def test_from_json_string_with_one_dictionary(self):
+        """Test from_json_string with one dictionary"""
+        self.assertEqual(Base.from_json_string('[{"id": 12}]'), [{"id": 12}])
+
+    def test_from_json_string_with_two_dictionaries(self):
+        """Test from_json_string with two dictionaries"""
+        self.assertEqual(Base.from_json_string('[{"id": 12}, {"id": 13}]'),
+                         [{"id": 12}, {"id": 13}])
+
+    def test_from_json_string_with_more_args(self):
+        """Test from_json_string with more args"""
+        with self.assertRaises(TypeError):
+            Base.from_json_string([{"id": 12}, {"id": 13}], 1)
+
+    def test_from_json_string_with_no_args(self):
+        """Test from_json_string with no args"""
+        with self.assertRaises(TypeError):
+            Base.from_json_string()
 if "__main__" == __name__:
     unittest.main()

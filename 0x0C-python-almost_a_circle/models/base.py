@@ -40,3 +40,34 @@ class Base:
             return "[]"
         else:
             return json.dumps(list_dictionaries)
+
+    @classmethod
+    def save_to_file(cls, list_objs):
+        """
+        write JSON string representation of list_objs to a file
+        args:
+            list_objs (list): list of instances that inherit from Base
+        """
+
+        filename = cls.__name__ + ".json"
+
+        if list_objs is not None:
+            list_objs = [obj.to_dictionary() for obj in list_objs]
+
+        json_string = cls.to_json_string(list_objs)
+        with open(filename, "w") as file:
+            file.write(json_string)
+
+    @staticmethod
+    def from_json_string(json_string):
+        """
+        return list of the JSON string representation json_string
+        args:
+            json_string (str): string representing a list of dictionaries
+        returns:
+            list of dictionaries
+        """
+        if json_string is None or json_string == "":
+            return []
+        else:
+            return json.loads(json_string)
